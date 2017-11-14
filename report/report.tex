@@ -1,0 +1,197 @@
+\documentclass[a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fullpage}
+\usepackage{indentfirst}
+\usepackage[per-mode=symbol]{siunitx}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\usepackage[format=plain,font=it]{caption}
+\usepackage{subcaption}
+\usepackage{standalone}
+\usepackage[nottoc]{tocbibind}
+\usepackage[noabbrev,capitalize,nameinlink]{cleveref}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{minted}
+\usepackage{booktabs}
+\usepackage{csvsimple}
+\usepackage{siunitx}
+\usepackage[super]{nth}
+\usepackage[titletoc]{appendix}
+\usepackage{todonotes}
+
+% Custom commands
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+\setminted{linenos,breaklines,fontsize=auto}
+
+%\titleformat*{\section}{\normalsize\bfseries}
+%\titleformat*{\subsection}{\small\bfseries}
+\renewcommand{\thesubsection}{\thesection.\alph{subsection}}
+\providecommand*{\listingautorefname}{Listing}
+\newcommand*{\Appendixautorefname}{Appendix}
+%\crefname{appendix}{Appendix}{Appendices}
+%\def\appendixname{Appendix}
+
+
+%opening
+\title{\textbf{ECSE 543 \\ Assignment 3}}
+\author{Sean Stappas \\ 260639512}
+\date{December \nth{7}, 2017}
+
+\begin{document}
+	\sloppy
+	\maketitle
+	
+	\tableofcontents
+	
+	
+	\twocolumn
+	
+	\section*{Introduction}
+	The code for this assignment was created in Python 2.7 and can be seen in \autoref{appendix:code}. To perform the required tasks in this assignment, the \mintinline{python}{Matrix} class from Assignment 1 was used, with useful methods such as add, multiply, transpose, etc. This package can be seen in the \mintinline{python}{matrices.py} file shown in \autoref{lst:matrices}. The only packages used that are not built-in are those for creating the plots for this report, i.e., \mintinline{python}{matplotlib} for plotting. The structure of the rest of the code will be discussed as appropriate for each question. Output logs of the program are provided in \autoref{appendix:logs}.
+	
+	
+	\section{BH Interpolation}
+	The source code for the Question 1 program can be seen in the \mintinline{python}{q1.py} file shown in \cref{lst:q1}.
+	
+	\subsection{Lagrange Polynomials}
+	\missingfigure{Interpolate the first 6 points using full-domain
+	Lagrange polynomials.}
+	
+	
+	\subsection{Full-Domain Lagrange Polynomials}
+	\missingfigure{Now use the same type of interpolation for the 6
+	points at B = 0, 1.3, 1.4, 1.7, 1.8, 1.9.}
+	
+	\subsection{Cubic Hermite Polynomials}
+	
+	
+	\section{Magnetic Circuit}
+	The source code for the Question 2 program can be seen in the \mintinline{python}{q2.py} file shown in \cref{lst:q2}.
+	
+	\subsection{Flux Equation}
+	
+	\begin{equation} \label{eq:flux}
+		f(\psi) = 0
+	\end{equation}
+	
+	\subsection{Newton-Raphson}
+	
+	\subsection{Successive Substitution}
+	
+	
+	\section{Diode Circuit}
+	The source code for the Question 3 program can be seen in the \mintinline{python}{q3.py} file shown in \cref{lst:q3}.
+	
+	\subsection{Voltage Equations}
+	
+	\subsection{Newton-Raphson}
+	
+	
+	\section{Function Integration}
+	The source code for the Question 4 program can be seen in the \mintinline{python}{q4.py} file shown in \cref{lst:q4}.
+	
+	\subsection{Cosine Integration}
+	\missingfigure{Plot log10(E) versus log10(N) for N=1, 2,…, 20, where E is the absolute	error in the computed integral.}
+	
+	\subsection{Log Integration}
+	\missingfigure{Repeat part (a) for the function loge(x), only this time plot for N=10, 20,…200.}
+	
+	\subsection{Log Integration Improvement}
+	
+	
+%	\begin{figure}[!htb]
+%		\centering
+%		\includegraphics[width=0.5\columnwidth]{plots/q1_circuit_1.pdf}
+%		\caption
+%		{Test circuit 1 with labeled nodes.}
+%		\label{fig:q1_circuit_1}
+%	\end{figure}
+%
+%	\begin{table}[!htb]
+%		\centering
+%		\caption{Voltage at labeled nodes of circuit 1.}
+%		\csvautobooktabular{csv/q1_circuit_1.csv}
+%		\label{table:q1_circuit_1}
+%	\end{table}
+%
+%	\begin{equation} \label{eq:functional}
+%		W_i = \frac{1}{2} U_{con_i}^T S U_{con_i}
+%	\end{equation}
+	
+	\onecolumn
+	
+	\begin{appendices}
+		
+		\section{Code Listings} \label{appendix:code}
+		
+		\setminted{linenos,breaklines,fontsize=\footnotesize}
+		
+		\begin{center}
+			\captionof{listing}{Custom matrix package (\texttt{matrices.py}).}
+			\inputminted{python}{../matrices.py}
+			\label{lst:matrices}
+		\end{center}
+	
+		\begin{center}
+			\captionof{listing}{Question 1 (\texttt{q1.py}).}
+			\inputminted{python}{../q1.py}
+			\label{lst:q1}
+		\end{center}
+	
+		\begin{center}
+			\captionof{listing}{Question 2 (\texttt{q2.py}).}
+			\inputminted{python}{../q2.py}
+			\label{lst:q2}
+		\end{center}
+		
+		
+		\begin{center}
+			\captionof{listing}{Question 3 (\texttt{q3.py}).}
+			\inputminted{python}{../q3.py}
+			\label{lst:q3}
+		\end{center}
+	
+
+		\begin{center}
+			\captionof{listing}{Question 4 (\texttt{q4.py}).}
+			\inputminted{python}{../q4.py}
+			\label{lst:q4}
+		\end{center}
+	
+		\section{Output Logs} \label{appendix:logs}
+		
+		\begin{center}
+			\captionof{listing}{Output of Question 1 program (\texttt{q1.txt}).}
+			\inputminted{pycon}{logs/q1.txt}
+			\label{lst:q1_log}
+		\end{center}
+	
+		\begin{center}
+			\captionof{listing}{Output of Question 2 program (\texttt{q2.txt}).}
+			\inputminted{pycon}{logs/q2.txt}
+			\label{lst:q2_log}
+		\end{center}
+	
+		\begin{center}
+			\captionof{listing}{Output of Question 3 program (\texttt{q3.txt}).}
+			\inputminted{pycon}{logs/q3.txt}
+			\label{lst:q3_log}
+		\end{center}
+	
+		\begin{center}
+			\captionof{listing}{Output of Question 4 program (\texttt{q4.txt}).}
+			\inputminted{pycon}{logs/q4.txt}
+			\label{lst:q4_log}
+		\end{center}
+
+	\end{appendices}
+
+\end{document}
