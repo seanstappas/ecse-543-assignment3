@@ -77,12 +77,45 @@
 	The source code for the Question 2 program can be seen in the \mintinline{python}{q2.py} file shown in \cref{lst:q2}.
 	
 	\subsection{Flux Equation}
+	The magnetic analog of KVL can be seen in \cref{eq:magnetic_kvl}.
+
+	\begin{equation} \label{eq:magnetic_kvl}
+		(\mathcal{R}_a + \mathcal{R}_c) \psi = \mathcal{F}
+	\end{equation}
+	where $\mathcal{R}_a$ is the reluctance of the air gap, $\mathcal{R}_c$ is the reluctance of the coil, and $\mathcal{F}$ is the magnetomotive force. Plugging in the relevant variables from the problem, we obtain \cref{eq:magnetic_kvl_plug}.
+
+	\begin{equation} \label{eq:magnetic_kvl_plug}
+		\left( \frac{L_a}{A \mu_o} + \frac{L_c}{A \mu_c(\psi)} \right) \psi - NI = 0
+	\end{equation}
+	where $\mu_c(\psi)$ is a function of $\psi$ given by \cref{eq:mu}.
+	
+	\begin{equation} \label{eq:mu}
+		\mu_c(\psi) = \frac{B}{H} = \frac{\psi}{A H}
+	\end{equation}
+	
+	Plugging \cref{eq:mu} into \cref{eq:magnetic_kvl_plug}, we obtain \cref{eq:magnetic_kvl_plug_2}.
+	
+	\begin{equation} \label{eq:magnetic_kvl_plug_2}
+		\left( \frac{L_a}{A \mu_o} + \frac{L_c H}{\psi} \right) \psi - NI = 0
+	\end{equation}
+	
+	Simplifying the terms, we obtain \cref{eq:flux}.
 	
 	\begin{equation} \label{eq:flux}
-		f(\psi) = 0
+		f(\psi) = \frac{L_a \psi}{A \mu_o} + L_c H - NI = 0
+	\end{equation}
+	
+	Finally, if we plug in the values from the question, we obtain \cref{eq:flux_plug}, where the coefficients of the terms are calculated in the \mintinline{python}{q2.py} script shown in \cref{lst:q1}.
+	
+	\begin{equation} \label{eq:flux_plug}
+		\input{latex/flux_equation.txt}
 	\end{equation}
 	
 	\subsection{Newton-Raphson}
+	
+	\begin{equation} \label{eq:b_psi}
+		B = \frac{\psi}{A}
+	\end{equation}
 	
 	\subsection{Successive Substitution}
 	
@@ -91,6 +124,58 @@
 	The source code for the Question 3 program can be seen in the \mintinline{python}{q3.py} file shown in \cref{lst:q3}.
 	
 	\subsection{Voltage Equations}
+	The current-voltage relationship for a diode is given by \cref{eq:diode_iv}.
+	
+	\begin{equation} \label{eq:diode_iv}
+		i = i_s \left( \exp\left[{\frac{qv}{kT}}\right] - 1\right)
+	\end{equation}
+	
+	Let the nodal voltage at the anode of the A diode be denoted by $v_A$ and that of the B diode by $v_B$. Let the current through the circuit be denoted by $i$. The diode equations for A and B can be seen in \cref{eq:diode_A,eq:diode_B}.
+	
+	\begin{equation} \label{eq:diode_A}
+		i = i_{sA} \left( \exp\left[{\frac{q(v_A - v_B)}{kT}}\right] - 1\right)
+	\end{equation}
+	
+	\begin{equation} \label{eq:diode_B}
+		i = i_{sB} \left( \exp\left[{\frac{qv_B}{kT}}\right] - 1\right)
+	\end{equation}
+	
+	By KVL, we also have \cref{eq:diode_kvl}, relating $V_A$ and $I$.
+	
+	\begin{equation} \label{eq:diode_kvl}
+		i = \frac{E - v_A}{R}
+	\end{equation}
+	
+	Equating \cref{eq:diode_kvl,eq:diode_A}, we obtain the nonlinear equation for $v_A$, shown in \cref{eq:diode_voltage_A}.
+	
+	\begin{equation} \label{eq:diode_voltage_A}
+	\begin{split}
+		&f_A(v_A) \\
+		& = v_A + R i_{sA} \left( \exp\left[{\frac{q(v_A - v_B)}{kT}}\right] - 1\right) - E \\
+		& = 0
+	\end{split}
+	\end{equation}
+	
+	Equating \cref{eq:diode_A,eq:diode_B}, we obtain the nonlinear equation for $v_B$, shown in \cref{eq:diode_voltage_B}.
+	
+	\begin{align} \label{eq:diode_voltage_B}
+	\begin{split}
+		f_B(v_B) &= i_{sA} \left( \exp\left[{\frac{q(v_A - v_B)}{kT}}\right] - 1\right)\\
+		&- i_{sB} \left( \exp\left[{\frac{qv_B}{kT}}\right] - 1\right) = 0
+	\end{split}
+	\end{align}
+	
+	The total system of equations can then be expressed by \cref{eq:f_system}.
+	
+	\begin{equation} \label{eq:f_system}
+		\textbf{f}(\textbf{v}_n) = 
+		\begin{bmatrix}
+		f_A(v_A) \\
+		f_B(v_B)
+		\end{bmatrix}
+		= \textbf{0}
+	\end{equation}
+	
 	
 	\subsection{Newton-Raphson}
 	
