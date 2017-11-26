@@ -23,6 +23,8 @@
 \usepackage[super]{nth}
 \usepackage[titletoc]{appendix}
 \usepackage{todonotes}
+\usepackage{mathtools}
+\usepackage{relsize}
 
 % Custom commands
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
@@ -237,24 +239,71 @@
 	
 	\subsection{Cosine Integration}
 	
-	The integral $I$ we wish to solve is shown in \cref{eq:cos_x_integral}.
+	The integral $I$ to be solved by Gauss-Legendre integration is shown in \cref{eq:fx_integral}.
 	
-	\begin{equation} \label{eq:cos_x_integral}
-		I = \int\limits_{0}^{1} \cos x dx 
+	\begin{equation} \label{eq:fx_integral}
+		I = \int\limits_{x_1}^{x_2} f(x) dx 
 	\end{equation}
 	
-	To use Gauss-Legendre integration, the $[0, 1]$ range of $x$ must be mapped to the $[-1, 1]$ range of $\zeta$. This mapping between $x$ and $\zeta$ is given by \cref{eq:x_zeta}.
+	To use Gauss-Legendre integration over N equal segments, the $[x_1, x_2]$ range of $x$ must be mapped to N intervals of size $h$, with each interval $i$ having a center point $x_{0_i}$, with $x_i$ ranging from $x_{0_i} - h/2$ to $x_{0_i} + h/2$. Each of these intervals must be mapped to a $[-1, 1]$ range for $\zeta_i$. This mapping between $x_i$ and $\zeta_i$ over an interval is given by \cref{eq:x_zeta}.
 	
 	\begin{equation} \label{eq:x_zeta}
-		x = \frac{1}{2} (\zeta + 1)
+		x_i = x_{0_i} + \frac{h}{2} \zeta_i
 	\end{equation}
 	
-	The updated integral equation is then given by \cref{eq:cos_zeta_integral}.
+	The integral transformation from $x$ to $\zeta$ over an interval $i$ is then given by \cref{eq:x_to_zeta_integral}.
 	
-	\begin{equation} \label{eq:cos_zeta_integral}
-		I =  \frac{1}{2} \int\limits_{-1}^{1} \cos \left[\frac{1}{2} (\zeta + 1)\right] d\zeta 
+	\begin{equation} \label{eq:x_to_zeta_integral}
+	\begin{split}
+			I_i &= \smashoperator{\int\limits_{x_{0_i} - h/2}^{x_{0_i} + h/2}} f(x_i) dx_i \\
+			 &= \frac{h}{2} \int\limits_{-1}^{1} f \left[x_{0_i} + \frac{h}{2} \zeta_i\right] d\zeta_i
+	\end{split}
 	\end{equation}
 	
+	The one-point Gauss-Legendre approximation can then be applied for each interval, as shown in \cref{eq:one_point_interval}, where $w_0 = 2$.
+	
+	\begin{equation} \label{eq:one_point_interval}
+		\begin{split}
+			I_i &= \frac{h}{2} \int\limits_{-1}^{1} f \left[x_{0_i} + \frac{h}{2} \zeta_i\right] d\zeta_i \\
+			&= \frac{h}{2} w_0 f(x_{0_i}) \\
+			&= h f(x_{0_i})
+		\end{split}
+	\end{equation}
+	
+	The equation approximating $I$ is then given by \cref{eq:total_integral}.
+	
+	\begin{equation} \label{eq:total_integral}
+		\begin{split}
+				I &\approx \sum_{i=0}^{N-1} I_i \\
+				&= \sum_{i=0}^{N-1} h f(x_{0_i}) \\
+				&= h \sum_{i=0}^{N-1} f(x_{0_i})
+		\end{split}
+	\end{equation}
+	
+	To summarize, to solve an integral of the form shown in \cref{eq:fx_integral} with one-point Gauss-Legendre integration over N intervals, we simply need the width $h$ of each interval and the value $f(x_{0_i})$ of the function $f$ at the midpoint of every interval.
+	
+	In the context of this question, $x_1 = 0$ and $x_2 = 1$. The width of each interval is $h = 1/N$ and the midpoint of each interval is $x_{0_i} = 1/(2N) + i/N$. This yields the equation shown in \cref{eq:context_total_integral}.
+	
+	\begin{equation} \label{eq:context_total_integral}
+		\begin{split}
+			I &= \int\limits_{0}^{1} f(x) dx  \\
+			&\approx \frac{1}{N} \sum_{i=0}^{N-1} f\left[ \frac{1}{N} \left(i + \frac{1}{2} \right) \right] \\
+		\end{split}
+	\end{equation}
+	
+	The code executing \cref{eq:context_total_integral} for arbitrary $f(x)$ can be seen in the \code{gauss\_legendre.py} script shown in \cref{lst:gauss_legendre}.
+	
+	If we use the fact that $f(x) = \cos x$ as well for this question, we obtain \cref{eq:cos_total_integral}.
+	
+	\begin{equation} \label{eq:cos_total_integral}
+		I \approx \frac{1}{N} \sum_{i=0}^{N-1} \cos \left[ \frac{1}{N} \left(i + \frac{1}{2} \right) \right]
+	\end{equation}
+	
+	To evaluate the estimation, it can be compared to actual value of the integral, which is given by \cref{eq:cos_actual_integral}.
+	
+	\begin{equation} \label{eq:cos_actual_integral}
+		\int\limits_{0}^{1} \cos x dx = \sin 1 - \sin 0 = \sin 1 \approx 0.841
+	\end{equation}
 	
 	The equation for the absolute error used is shown in \cref{eq:error}, where $I_{actual}$ is the actual value of the integral, and $I_{approx}$ is the approximate value computed by Gauss-Legendre integration.
 	
@@ -262,46 +311,71 @@
 		E = | I_{actual}  - I_{approx}|
 	\end{equation}
 	
-	\missingfigure{Plot log10(E) versus log10(N) for N=1, 2,…, 20, where E is the absolute	error in the computed integral.}
+ 	The integral of $\cos x$ is computed in the \code{q4.py} script shown in \cref{lst:q4}, with output shown in \cref{lst:q4_log}. The logarithmic plot of the error versus N can be seen in \cref{fig:q4a}. The straight-line slope of the plot is indicative of the fact that first-order Gauss-Legendre integration was used.
+	
+	\begin{figure}[!htb]
+		\centering
+		\includegraphics[width=\columnwidth]{plots/q4a.pdf}
+		\caption
+		{Logarithmic plot of the error E versus number of intervals N for $f(x) = \cos x$.}
+		\label{fig:q4a}
+	\end{figure}
 	
 	\subsection{Log Integration}
 	
-	The integral $I$ we woulwish to solve is shown in \cref{eq:log_x_integral}.
+	The integral $I$ to be evaluated is shown in \cref{eq:log_x_integral}.
 	
 	\begin{equation} \label{eq:log_x_integral}
-		I = \int\limits_{0}^{1} \log x dx 
+		I = \int\limits_{0}^{1} \log_e x dx 
 	\end{equation}
 	
-	Using \cref{eq:x_zeta} for the $\log$ function, we obtain the integral shown in \cref{eq:log_zeta_integral}.
+	Using \cref{eq:context_total_integral} for $f(x) = \log_e x$, we obtain the integral shown in \cref{eq:log_total_integral}.
 	
-	\begin{equation} \label{eq:log_zeta_integral}
-		I =  \frac{1}{2} \int\limits_{-1}^{1} \log \left[\frac{1}{2} (\zeta + 1)\right] d\zeta 
+	\begin{equation} \label{eq:log_total_integral}
+		I \approx \frac{1}{N} \sum_{i=0}^{N-1} \log_e \left[ \frac{1}{N} \left(i + \frac{1}{2} \right) \right]
 	\end{equation}
 	
-	\missingfigure{Repeat part (a) for the function log(x), only this time plot for N=10, 20,…200.}
+	The actual value of the integral to which the estimation is compared is shown in \cref{eq:log_actual_integral}.
+	
+	\begin{equation} \label{eq:log_actual_integral}
+		\int\limits_{0}^{1} \log_e x dx = -1
+	\end{equation}
+	
+	The integral of $\log_e x$ is computed in the \code{q4.py} script shown in \cref{lst:q4}, with output shown in \cref{lst:q4_log}. The logarithmic plot of the error versus N can be seen in \cref{fig:q4b}. The straight-line slope of the plot is indicative of the fact that first-order Gauss-Legendre integration was used.
+	
+	\begin{figure}[!htb]
+		\centering
+		\includegraphics[width=\columnwidth]{plots/q4b.pdf}
+		\caption
+		{Logarithmic plot of the error E versus number of intervals N for $f(x) = \log_e x$.}
+		\label{fig:q4b}
+	\end{figure}
 	
 	\subsection{Log Integration Improvement}
 	
+	To have arbitrary interval widths, \cref{eq:total_integral} must be adjusted, as shown in \cref{eq:log_zeta_integral}, where $h_i$ is the width of interval $i$.
 	
-%	\begin{figure}[!htb]
-%		\centering
-%		\includegraphics[width=0.5\columnwidth]{plots/q1_circuit_1.pdf}
-%		\caption
-%		{Test circuit 1 with labeled nodes.}
-%		\label{fig:q1_circuit_1}
-%	\end{figure}
-%
-%	\begin{table}[!htb]
-%		\centering
-%		\caption{Voltage at labeled nodes of circuit 1.}
-%		\csvautobooktabular{csv/q1_circuit_1.csv}
-%		\label{table:q1_circuit_1}
-%	\end{table}
-%
-%	\begin{equation} \label{eq:functional}
-%		W_i = \frac{1}{2} U_{con_i}^T S U_{con_i}
-%	\end{equation}
+	\begin{equation} \label{eq:log_zeta_integral}
+		I \approx \sum_{i=0}^{N-1} h_i f(x_{0_i}) 
+	\end{equation}
 	
+	The relative widths used are shown in \cref{eq:relative_widths}
+	
+	\begin{equation} \label{eq:relative_widths}
+		(h_i)_{i=0}^{N-1} = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+	\end{equation}
+	
+
+	These relative widths are converted to actual widths and then used to compute the integral in the \code{gauss\_legendre.py} script shown in \cref{lst:gauss_legendre}. The code is executed in the \code{q4.py} script shown in \cref{lst:q4}, with output shown in \cref{lst:q4_log}.	How closely the widths approximate the $\log_e x$ curve can be seen in \cref{fig:q4c}. The estimated value of the integral is $-0.988377$ with absolute error of $0.011622$. This is much more accurate than the equal-segment version in part (b), which obtained a value of $-0.965759$ and error of $0.034241$.
+	
+	\begin{figure}[!htb]
+		\centering
+		\includegraphics[width=\columnwidth]{plots/q4c.pdf}
+		\caption
+		{Sizes of intervals used for Question 4(c), with $\log_e x$ shown as reference.}
+		\label{fig:q4c}
+	\end{figure}
+
 	\onecolumn
 	
 	\begin{appendices}
@@ -346,7 +420,12 @@
 			\inputminted{python}{../q4.py}
 			\label{lst:q4}
 		\end{center}
-	
+
+		\begin{center}
+			\captionof{listing}{Gauss-Legendre integration (\texttt{gauss\_legendre.py}).}
+			\inputminted{python}{../gauss_legendre.py}
+			\label{lst:gauss_legendre}
+		\end{center}	
 		\section{Output Logs} \label{appendix:logs}
 		
 		\begin{center}

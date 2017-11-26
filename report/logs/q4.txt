@@ -1,0 +1,94 @@
+=== Question 4 ===
+
+=== Question 4(a) ===
+Actual integral of cos(x): 0.841470984808
+Integral of cos(x) with N=1: 0.87758256189
+Error: 0.0361115770825
+Integral of cos(x) with N=2: 0.850300645292
+Error: 0.00882966048434
+Integral of cos(x) with N=3: 0.845379345845
+Error: 0.00390836103756
+Integral of cos(x) with N=4: 0.843666316703
+Error: 0.00219533189465
+Integral of cos(x) with N=5: 0.84287507437
+Error: 0.00140408956194
+Integral of cos(x) with N=6: 0.842445699196
+Error: 0.00097471438853
+Integral of cos(x) with N=7: 0.842186947503
+Error: 0.000715962695571
+Integral of cos(x) with N=8: 0.842019067246
+Error: 0.000548082438602
+Integral of cos(x) with N=9: 0.841903996167
+Error: 0.000433011359186
+Integral of cos(x) with N=10: 0.841821700007
+Error: 0.000350715199399
+Integral of cos(x) with N=11: 0.841760817405
+Error: 0.000289832597425
+Integral of cos(x) with N=12: 0.841714515321
+Error: 0.000243530512976
+Integral of cos(x) with N=13: 0.841678483879
+Error: 0.000207499070943
+Integral of cos(x) with N=14: 0.841649895569
+Error: 0.000178910761171
+Integral of cos(x) with N=15: 0.84162683297
+Error: 0.000155848162437
+Integral of cos(x) with N=16: 0.841607958582
+Error: 0.000136973773665
+Integral of cos(x) with N=17: 0.841592316399
+Error: 0.000121331591133
+Integral of cos(x) with N=18: 0.841579208411
+Error: 0.000108223603482
+Integral of cos(x) with N=19: 0.841568115345
+Error: 9.71305373565e-05
+Integral of cos(x) with N=20: 0.841558644427
+Error: 8.76596193864e-05
+
+=== Question 4(b) ===
+Actual integral of ln(x): -1
+Integral of ln(x) with N=10: -0.965759065346
+Error: 0.0342409346539
+Integral of ln(x) with N=20: -0.982775471974
+Error: 0.0172245280263
+Integral of ln(x) with N=30: -0.988493840287
+Error: 0.0115061597127
+Integral of ln(x) with N=40: -0.99136170096
+Error: 0.00863829903958
+Integral of ln(x) with N=50: -0.993085194472
+Error: 0.00691480552777
+Integral of ln(x) with N=60: -0.994235347382
+Error: 0.00576465261812
+Integral of ln(x) with N=70: -0.99505745201
+Error: 0.00494254798958
+Integral of ln(x) with N=80: -0.995674340479
+Error: 0.00432565952117
+Integral of ln(x) with N=90: -0.996154326326
+Error: 0.0038456736739
+Integral of ln(x) with N=100: -0.99653843074
+Error: 0.00346156926044
+Integral of ln(x) with N=110: -0.996852774507
+Error: 0.00314722549297
+Integral of ln(x) with N=120: -0.997114780254
+Error: 0.00288521974554
+Integral of ln(x) with N=130: -0.99733651478
+Error: 0.00266348521974
+Integral of ln(x) with N=140: -0.997526600199
+Error: 0.00247339980084
+Integral of ln(x) with N=150: -0.997691361245
+Error: 0.00230863875481
+Integral of ln(x) with N=160: -0.997835542661
+Error: 0.00216445733879
+Integral of ln(x) with N=170: -0.997962773572
+Error: 0.00203722642786
+Integral of ln(x) with N=180: -0.998075877171
+Error: 0.00192412282897
+Integral of ln(x) with N=190: -0.998177082672
+Error: 0.00182291732836
+Integral of ln(x) with N=200: -0.998268173714
+Error: 0.00173182628625
+
+=== Question 4(c) ===
+Actual integral of ln(x): -1
+Relative widths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+Actual widths: [0.01818181818181818, 0.03636363636363636, 0.05454545454545454, 0.07272727272727272, 0.09090909090909091, 0.10909090909090909, 0.12727272727272726, 0.14545454545454545, 0.16363636363636364, 0.18181818181818182]
+Estimated Integral of ln(x): -0.988377436631
+Error: 0.0116225633689

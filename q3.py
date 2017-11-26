@@ -1,6 +1,6 @@
 from __future__ import division
 
-from csv_saver import save_rows_to_csv, save_rows_to_latex
+from data_saver import save_rows_to_latex
 from newton_raphson import newton_raphson_solve
 
 
@@ -11,9 +11,6 @@ def q3():
     v_a, v_b = v_n.values
     print('v_a: {:.3f} mV'.format(v_a * 1000))
     print('v_b: {:.3f} mV'.format(v_b * 1000))
-
-    print('{:.3e}'.format(124124.123123123))
-
     save_rows_to_latex('report/latex/q3.txt', values)
 
 
