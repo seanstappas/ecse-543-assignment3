@@ -1,0 +1,6 @@
+=== Question 3 ===
+Solution:
+ 0.198
+ 0.091
+v_a: 198.134 mV
+v_b: 90.571 mV

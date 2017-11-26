@@ -219,6 +219,17 @@
 		\mathbf{v_n}^{(k + 1)} \leftarrow \mathbf{v_n}^{(k)} - (\mathbf{F}^{(k)})^{-1} \mathbf{f}^{(k)}
 	\end{equation}
 	
+	The code performing this update is in the \code{newton\_raphson.py} script and can be seen in \cref{lst:newton_raphson}. The error $\epsilon$ in \textbf{f} is defined as \SI{1e-9}{}, where the 2-norm of \textbf{f} is used to compare to the error. The code is executed in the \code{q3.py} script shown in \cref{lst:q3}, with output shown in \cref{lst:q3_log}. 
+	
+	
+	\begin{table}[!htb]
+		\centering
+		\caption{Node voltages and \textbf{f} values at every iteration of Newton-Raphson.}
+		\begin{tabular}{r}
+			\SI{1e-1}{}
+		\end{tabular}
+		\label{table:q3}
+	\end{table}
 	
 	\section{Function Integration}
 	The source code for the Question 4 program can be seen in the \mintinline{python}{q4.py} file shown in \cref{lst:q4}.
@@ -323,6 +334,11 @@
 			\label{lst:q3}
 		\end{center}
 	
+		\begin{center}
+			\captionof{listing}{Newton-Raphson (\texttt{newton\_raphson.py}).}
+			\inputminted{python}{../newton_raphson.py}
+			\label{lst:newton_raphson}
+		\end{center}
 
 		\begin{center}
 			\captionof{listing}{Question 4 (\texttt{q4.py}).}

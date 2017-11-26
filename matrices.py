@@ -18,15 +18,7 @@ class Matrix:
         for row in self.data:
             string += '\n'
             for val in row:
-                string += '{:6.2f} '.format(val)
-        return string
-
-    def integer_string(self):
-        string = ''
-        for row in self.data:
-            string += '\n'
-            for val in row:
-                string += '{:3.0f} '.format(val)
+                string += '{:6.3f} '.format(val)
         return string
 
     def __add__(self, other):
@@ -63,13 +55,13 @@ class Matrix:
                 product[i][j] = row_sum
         return product
 
-    def scalar_multiply(self, scalar):
-        return Matrix([[self[row][col] * scalar for col in range(self.num_cols)] for row in range(self.num_rows)])
-
     def __div__(self, other):
         """
         Element-wise division.
         """
+        if type(other) == float or type(other) == int:
+            return self.scalar_divide(other)
+
         if self.num_rows != other.num_rows or self.num_cols != other.num_cols:
             raise ValueError('Incompatible matrix sizes.')
         return Matrix([[self[row][col] / other[row][col] for col in range(self.num_cols)]
@@ -87,6 +79,37 @@ class Matrix:
     def __len__(self):
         return len(self.data)
 
+    @property
+    def transpose(self):
+        """
+        :return: the transpose of the current matrix
+        """
+        return Matrix([[self.data[row][col] for row in range(self.num_rows)] for col in range(self.num_cols)])
+
+    @property
+    def infinity_norm(self):
+        if self.num_cols > 1:
+            raise ValueError('Not a column vector.')
+        return max([abs(x) for x in self.transpose[0]])
+
+    @property
+    def two_norm(self):
+        if self.num_cols > 1:
+            raise ValueError('Not a column vector.')
+        return math.sqrt(sum([x ** 2 for x in self.transpose[0]]))
+
+    @property
+    def values(self):
+        """
+        :return: the values in this matrix, in row-major order.
+        """
+        vals = []
+        for row in self.data:
+            for val in row:
+                vals.append(val)
+        return tuple(vals)
+
+    @property
     def item(self):
         """
         :return: the single element contained by this matrix, if it is 1x1.
@@ -94,6 +117,20 @@ class Matrix:
         if not (self.num_rows == 1 and self.num_cols == 1):
             raise ValueError('Matrix is not 1x1')
         return self.data[0][0]
+
+    def integer_string(self):
+        string = ''
+        for row in self.data:
+            string += '\n'
+            for val in row:
+                string += '{:3.0f} '.format(val)
+        return string
+
+    def scalar_multiply(self, scalar):
+        return Matrix([[self[row][col] * scalar for col in range(self.num_cols)] for row in range(self.num_rows)])
+
+    def scalar_divide(self, scalar):
+        return Matrix([[self[row][col] / scalar for col in range(self.num_cols)] for row in range(self.num_rows)])
 
     def is_positive_definite(self):
         """
@@ -110,12 +147,6 @@ class Matrix:
                     A[i][k] = A[i][k] - A[i][j] * A[k][j]
         return True
 
-    def transpose(self):
-        """
-        :return: the transpose of the current matrix
-        """
-        return Matrix([[self.data[row][col] for row in range(self.num_rows)] for col in range(self.num_cols)])
-
     def mirror_horizontal(self):
         """
         :return: the horizontal mirror of the current matrix
@@ -128,16 +159,6 @@ class Matrix:
         :return: an empty matrix of the same size as the current matrix.
         """
         return Matrix.empty(self.num_rows, self.num_cols)
-
-    def infinity_norm(self):
-        if self.num_cols > 1:
-            raise ValueError('Not a column vector.')
-        return max([abs(x) for x in self.transpose()[0]])
-
-    def two_norm(self):
-        if self.num_cols > 1:
-            raise ValueError('Not a column vector.')
-        return math.sqrt(sum([x ** 2 for x in self.transpose()[0]]))
 
     def save_to_csv(self, filename):
         """
