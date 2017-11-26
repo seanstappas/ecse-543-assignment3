@@ -22,13 +22,13 @@ def newton_raphson_solve():
     F = Matrix.empty(2, 2)
     update_f(f, v_n)
     update_jacobian(F, v_n)
-    values.append((iteration,) + v_n.values + f.values + (f.two_norm, ))
+    values.append(v_n.scaled_values(1000) + ('{:.3e}'.format(f.two_norm), ))
     while f.two_norm > EPSILON:
         v_n -= inverse_2x2(F) * f
         update_f(f, v_n)
         update_jacobian(F, v_n)
         iteration += 1
-        values.append((iteration,) + v_n.values + f.values + (f.two_norm, ))
+        values.append(v_n.scaled_values(1000) + ('{:.3e}'.format(f.two_norm), ))
     return v_n, values
 
 

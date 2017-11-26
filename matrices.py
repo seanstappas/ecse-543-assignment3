@@ -109,6 +109,16 @@ class Matrix:
                 vals.append(val)
         return tuple(vals)
 
+    def scaled_values(self, scale):
+        """
+        :return: the values in this matrix, in row-major order.
+        """
+        vals = []
+        for row in self.data:
+            for val in row:
+                vals.append('{:.3f}'.format(val * scale))
+        return tuple(vals)
+
     @property
     def item(self):
         """
