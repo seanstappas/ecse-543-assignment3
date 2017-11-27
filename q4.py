@@ -91,7 +91,7 @@ def plot_log_widths(widths):
     plt.xlabel('$x$')
     plt.ylabel('$\log_e x$')
     plt.grid(True)
-    f.savefig('report/plots/q4c2.pdf', bbox_inches='tight')
+    f.savefig('report/plots/q4c.pdf', bbox_inches='tight')
 
 
 if __name__ == '__main__':
