@@ -1,14 +1,12 @@
 from __future__ import division
 
 from math import cos, log10, sin, log
-
-import matplotlib.pyplot as plt
-from matplotlib import rc
 from matplotlib.patches import Rectangle
-
 from gauss_legendre import one_point_gauss_legendre, one_point_gauss_legendre_arbitrary_widths, \
     convert_relative_widths_to_widths
 
+import matplotlib.pyplot as plt
+from matplotlib import rc
 rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
 rc('text', usetex=True)
 

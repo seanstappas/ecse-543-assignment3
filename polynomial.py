@@ -44,5 +44,14 @@ class Polynomial:
             result_coefficients.append(coefficient)
         return Polynomial(result_coefficients)
 
+    def __str__(self):
+        return ' + '.join('{}x^{}'.format(coefficient, power) for power, coefficient in enumerate(self.coefficients))
+
     def scalar_multiply(self, scalar):
         return Polynomial([scalar * coefficient for coefficient in self.coefficients])
+
+    def evaluate(self, x):
+        result = 0
+        for power, coefficient in enumerate(self.coefficients):
+            result += coefficient * (x ** power)
+        return result
