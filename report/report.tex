@@ -64,7 +64,21 @@
 	The source code for the Question 1 program can be seen in the \mintinline{python}{q1.py} file shown in \cref{lst:q1}.
 	
 	\subsection{Lagrange Polynomials}
-	To interpolate 6 points, a \nth{5}-order Lagrange polynomial is needed.
+	To interpolate $n=6$ points of a function $y(x)$, six \nth{5}-order Lagrange polynomials are needed. Each of these polynomials $L_j$ is given by \cref{eq:lagrange_polynomial}, where each $F_j$ is given by \cref{eq:lagrange_f}.
+	
+	\begin{equation} \label{eq:lagrange_polynomial}
+		L_j(x) = \frac{F_j(x)}{F_j(x_j)}
+	\end{equation}
+	
+	\begin{equation} \label{eq:lagrange_f}
+		F_j(x) = \smashoperator{\prod\limits_{r=1 \ldots n, r \neq j}} (x - x_r)
+	\end{equation}
+	
+	The interpolation $\tilde{y}(x)$ of $y(x)$ is then given by \cref{eq:lagrange_interpolation}.
+	
+	\begin{equation} \label{eq:lagrange_interpolation}
+		\tilde{y}(x) = \sum_{j=1}^{n} y(x_j) L_j(x)
+	\end{equation}
 	
 	\missingfigure{Interpolate the first 6 points using full-domain
 	Lagrange polynomials.}
