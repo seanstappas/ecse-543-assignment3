@@ -126,19 +126,19 @@
 	where $\mu_c(\psi)$ is a function of $\psi$ given by \cref{eq:mu}.
 	
 	\begin{equation} \label{eq:mu}
-		\mu_c(\psi) = \frac{B}{H} = \frac{\psi}{A H}
+		\mu_c(\psi) = \frac{B(\psi)}{H(\psi)} = \frac{\psi}{A H(\psi)}
 	\end{equation}
 	
 	Plugging \cref{eq:mu} into \cref{eq:magnetic_kvl_plug}, we obtain \cref{eq:magnetic_kvl_plug_2}.
 	
 	\begin{equation} \label{eq:magnetic_kvl_plug_2}
-		\left( \frac{L_a}{A \mu_o} + \frac{L_c H}{\psi} \right) \psi - NI = 0
+		\left( \frac{L_a}{A \mu_o} + \frac{L_c H(\psi)}{\psi} \right) \psi - NI = 0
 	\end{equation}
 	
 	Simplifying the terms, we obtain \cref{eq:flux}.
 	
 	\begin{equation} \label{eq:flux}
-		f(\psi) = \frac{L_a \psi}{A \mu_o} + L_c H - NI = 0
+		f(\psi) = \frac{L_a \psi}{A \mu_o} + L_c H(\psi) - NI = 0
 	\end{equation}
 	
 	Finally, if we plug in the values from the question, we obtain \cref{eq:flux_plug}, where the coefficients of the terms are calculated in the \mintinline{python}{q2.py} script shown in \cref{lst:q1}.
@@ -147,11 +147,20 @@
 		\input{latex/flux_equation.txt}
 	\end{equation}
 	
+	In \cref{eq:flux_plug}, $H(\psi)$ can be calculated for a given $\psi$ by first finding $B = \psi / A$, and then using the $B$-$H$ curve to find $H$.
+	
 	\subsection{Newton-Raphson}
 	
-	\begin{equation} \label{eq:b_psi}
-		B = \frac{\psi}{A}
+	\begin{equation} \label{eq:newton_raphson}
+		\psi^{(k+1)} \leftarrow \psi^{(k)} - \frac{f^{(k)}}{{f'}^{(k)}}
 	\end{equation}
+	
+	The $f'$ function is given by \cref{eq:flux_derivative}.
+	
+	\begin{equation} \label{eq:flux_derivative}
+		f'(\psi) = \SI{3.979e7}{} + 0.3H'(\psi)
+	\end{equation}
+	
 	
 	\subsection{Successive Substitution}
 	
@@ -246,13 +255,15 @@
 		\end{bmatrix}
 	\end{equation}
 	
-	With this information, we can apply the Newton-Raphson update in matrix form, shown in \cref{eq:newton_raphson}.
+	With this information, we can apply the Newton-Raphson update in matrix form, shown in \cref{eq:newton_raphson_matrix}.
 	
-	\begin{equation} \label{eq:newton_raphson}
+	\begin{equation} \label{eq:newton_raphson_matrix}
 		\mathbf{v_n}^{(k + 1)} \leftarrow \mathbf{v_n}^{(k)} - (\mathbf{F}^{(k)})^{-1} \mathbf{f}^{(k)}
 	\end{equation}
 	
-	The code performing this update is in the \code{newton\_raphson.py} script and can be seen in \cref{lst:newton_raphson}. The error $\epsilon$ in \textbf{f} is defined as \SI{1e-9}{}, where the 2-norm of \textbf{f} is used to compare to the error. The code is executed in the \code{q3.py} script shown in \cref{lst:q3}, with output shown in \cref{lst:q3_log}. The final solved voltage values are \SI{198.134}{\milli\volt} for $v_A$ and \SI{90.571}{\milli\volt} for $v_B$.
+	\todo{Define fraction error, like Q2}
+	
+	The code performing this update is in the \code{newton\_raphson.py} script and can be seen in \cref{lst:newton_raphson_matrix}. The initial guess is $v_A=\SI{0}{\volt}$ and $v_B=\SI{0}{\volt}$. The error $\epsilon$ in \textbf{f} is defined as \SI{1e-9}{}, where the 2-norm of \textbf{f} is used to compare to the error. The code is executed in the \code{q3.py} script shown in \cref{lst:q3}, with output shown in \cref{lst:q3_log}. The final solved voltage values are \SI{198.134}{\milli\volt} for $v_A$ and \SI{90.571}{\milli\volt} for $v_B$.
 	
 	
 	\begin{table}[!htb]
@@ -463,9 +474,9 @@
 		\end{center}
 	
 		\begin{center}
-			\captionof{listing}{Newton-Raphson (\texttt{newton\_raphson.py}).}
-			\inputminted{python}{../newton_raphson.py}
-			\label{lst:newton_raphson}
+			\captionof{listing}{Newton-Raphson (\texttt{newton\_raphson\_matrix.py}).}
+			\inputminted{python}{../newton_raphson_matrix.py}
+			\label{lst:newton_raphson_matrix}
 		\end{center}
 
 		\begin{center}

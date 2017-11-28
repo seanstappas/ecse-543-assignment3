@@ -18,7 +18,7 @@ def q2b():
     coeff_1 = L_a / (A * mu_0)
     coeff_2 = L_c
     coeff_3 = N * I
-    eq = 'f(\psi) = \SI{{{:1.3e}}}{{}} \psi + {}H - {} = 0'.format(coeff_1, coeff_2, coeff_3)
+    eq = 'f(\psi) = \SI{{{:1.3e}}}{{}} \psi + {}H(\psi) - {} = 0'.format(coeff_1, coeff_2, coeff_3)
     print(eq)
     with open('report/latex/flux_equation.txt', 'w') as f:
         f.write(eq)
