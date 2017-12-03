@@ -178,7 +178,7 @@
 		\psi^{(k+1)} \leftarrow \psi^{(k)} - \frac{f^{(k)}}{{f'}^{(k)}}
 	\end{equation}
 	
-	The code performing the Newton-Raphson update is in \code{newton\_raphson.py} and can be seen in \cref{lst:newton_raphson}. The executing program is in \code{q2.py} shown in \cref{lst:q2}, with associated output in \cref{lst:q2_log}. The program takes 3 steps to solve for a flux of approximately $\psi = \SI{161.2681}{\micro\weber}$.
+	The code performing the Newton-Raphson update is in \code{newton\_raphson.py} and can be seen in \cref{lst:newton_raphson}. The executing program is in \code{q2.py} shown in \cref{lst:q2}, with associated output in \cref{lst:q2_log}. The program takes 3 steps to solve for a flux of approximately $\psi = \SI{161.269}{\micro\weber}$.
 	
 	\subsection{Successive Substitution}
 	
@@ -279,16 +279,20 @@
 		\mathbf{v_n}^{(k + 1)} \leftarrow \mathbf{v_n}^{(k)} - (\mathbf{F}^{(k)})^{-1} \mathbf{f}^{(k)}
 	\end{equation}
 	
-	\todo{Define fraction error, like Q2}
+	The code performing this update is in the \code{newton\_raphson\_matrix.py} script and can be seen in \cref{lst:newton_raphson_matrix}. The initial guess is $v_A=\SI{0}{\volt}$ and $v_B=\SI{0}{\volt}$. The program terminates when $\|\mathbf{f}\| / \|\mathbf{f_0}\|$ is less than some $\epsilon$, as shown in \cref{eq:newton_raphson_matrix_error}. The chosen value of $\epsilon$ is \SI{1e-9}{}.
 	
-	The code performing this update is in the \code{newton\_raphson\_matrix.py} script and can be seen in \cref{lst:newton_raphson_matrix}. The initial guess is $v_A=\SI{0}{\volt}$ and $v_B=\SI{0}{\volt}$. The error $\epsilon$ in \textbf{f} is defined as \SI{1e-9}{}, where the 2-norm of \textbf{f} is used to compare to the error. The code is executed in the \code{q3.py} script shown in \cref{lst:q3}, with output shown in \cref{lst:q3_log}. The final solved voltage values are \SI{198.134}{\milli\volt} for $v_A$ and \SI{90.571}{\milli\volt} for $v_B$.
+	\begin{equation} \label{eq:newton_raphson_matrix_error}
+		\frac{\|\mathbf{f}\|}{\|\mathbf{f_0}\|} < \epsilon
+	\end{equation}
+	
+	The code is executed in the \code{q3.py} script shown in \cref{lst:q3}, with output shown in \cref{lst:q3_log}. The final solved voltage values are \SI{198.134}{\milli\volt} for $v_A$ and \SI{90.571}{\milli\volt} for $v_B$.
 	
 	
 	\begin{table}[!htb]
 		\centering
 		\caption{Node voltages and \textbf{f} values at every iteration of Newton-Raphson.}
 		\begin{tabular}{c | c | c}
-			$v_A$ (mV) & $v_B$ (mV) & $\|\textbf{f}\|$ \\ \hline
+			$v_A$ (mV) & $v_B$ (mV) & $\|\mathbf{f}\| / \|\mathbf{f_0}\|$ \\ \hline
 			\input{latex/q3.txt}
 		\end{tabular}
 		\label{table:q3}

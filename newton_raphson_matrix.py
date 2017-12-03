@@ -1,5 +1,6 @@
 from __future__ import division
 
+import copy
 from math import exp
 
 from matrices import Matrix
@@ -21,9 +22,10 @@ def newton_raphson_matrix_solve():
     f = Matrix.empty(2, 1)
     F = Matrix.empty(2, 2)
     update_f(f, v_n)
+    f_0 = copy.deepcopy(f)
     update_jacobian(F, v_n)
     values.append(v_n.scaled_values(1000) + ('{:.3e}'.format(f.two_norm), ))
-    while f.two_norm > EPSILON:
+    while f.two_norm / f_0.two_norm >= EPSILON:
         v_n -= inverse_2x2(F) * f
         update_f(f, v_n)
         update_jacobian(F, v_n)
