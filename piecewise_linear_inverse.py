@@ -8,6 +8,10 @@ A = 1e-4
 
 
 class PiecewiseLinearInterpolatorInverse:
+    """
+    Piecewise-linear interpolator for the B-H curve.
+    """
+
     def __init__(self):
         self.piecewise_linear_polynomials = []
         for i in range(len(B) - 1):

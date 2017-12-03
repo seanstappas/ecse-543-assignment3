@@ -42,7 +42,6 @@ def plot_error_quadratic_fit(error_values):
 
     x_range = [i for i in range(len(error_values))]
     y_range = [float(error) for error in error_values]
-    print(y_range)
     plt.plot(x_range, y_range, 'o')
 
     x_new = np.linspace(x_range[0], x_range[-3], num=len(x_range) * 10)

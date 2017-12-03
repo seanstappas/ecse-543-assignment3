@@ -15,6 +15,11 @@ EPSILON = 1e-9
 
 
 def newton_raphson_matrix_solve():
+    """
+    Solves for the nodal voltages of the nonlinear diode in Q3 by Newton-Raphson.
+
+    :return: the solved voltages, as well stepwise values for the error, voltage and f vector
+    """
     error_values = []
     norm_values = []
     vA_values = []
@@ -53,12 +58,24 @@ def newton_raphson_matrix_solve():
 
 
 def update_f(f, v_n):
+    """
+    Updates the f vector.
+
+    :param f: the f vector to update
+    :param v_n: the nodal voltages
+    """
     v_a, v_b = v_n.values
     f[0][0] = f_a(v_a, v_b)
     f[1][0] = f_b(v_a, v_b)
 
 
 def update_jacobian(F, v_n):
+    """
+    Updates the Jacobian matrix.
+
+    :param F: the Jacobian matrix to update
+    :param v_n: the nodal voltages
+    """
     v_a, v_b = v_n.values
     F[0][0] = dfa_dva(v_a, v_b)
     F[0][1] = dfa_dvb(v_a, v_b)
@@ -99,6 +116,12 @@ def exp_df_term(v_a, v_b):
 
 
 def inverse_2x2(A):
+    """
+    Inverts a 2x2 matrix and returns a copy.
+
+    :param A: the matrix to invert
+    :return: the inverted matrix
+    """
     a = A[0][0]
     b = A[0][1]
     c = A[1][0]

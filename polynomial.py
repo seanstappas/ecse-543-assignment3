@@ -1,5 +1,12 @@
 class Polynomial:
+    """
+    Polynomial object used for multiplication and addition of polynomials.
+    """
+
     def __init__(self, coefficients):
+        """
+        :param coefficients: the polynomial coefficients, in increasing order
+        """
         self.coefficients = coefficients
         self.order = len(coefficients) - 1
 
@@ -51,6 +58,12 @@ class Polynomial:
         return Polynomial([scalar * coefficient for coefficient in self.coefficients])
 
     def evaluate(self, x):
+        """
+        Evaluate the polynomial at the given value of x.
+
+        :param x: the x value to evaluate the polynomial at
+        :return: the evaluated polynomial
+        """
         result = 0
         for power, coefficient in enumerate(self.coefficients):
             result += coefficient * (x ** power)

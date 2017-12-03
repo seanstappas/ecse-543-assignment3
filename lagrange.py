@@ -4,6 +4,13 @@ from polynomial import Polynomial
 
 
 def lagrange_interpolation(x_values, y_values):
+    """
+    Creates a polynomial interpolating the given x and y values using multiple Lagrange polynomials.
+
+    :param x_values: the x values
+    :param y_values: the y values
+    :return: the interpolated polynomial
+    """
     n = len(x_values)
     result_polynomial = Polynomial([])
     for j in range(n):
@@ -12,12 +19,26 @@ def lagrange_interpolation(x_values, y_values):
 
 
 def lagrange_lj_polynomial(j, x_values):
+    """
+    Computes the Lj Lagrange polynomial.
+
+    :param j: the j index
+    :param x_values: the x values
+    :return: the Lj Lagrange polynomial
+    """
     fj_x = lagrange_fj_polynomial(j, x_values)
     fj_xj = lagrange_fj_constant_denominator(j, x_values)
     return fj_x.scalar_multiply(1 / fj_xj)
 
 
 def lagrange_fj_polynomial(j, x_values):
+    """
+    Computes the Fj polynomial.
+
+    :param j: the j index
+    :param x_values: the x values
+    :return: the Fj polynomial
+    """
     result_polynomial = Polynomial([1])
     for r in range(len(x_values)):
         if r != j:
@@ -26,6 +47,13 @@ def lagrange_fj_polynomial(j, x_values):
 
 
 def lagrange_fj_constant_denominator(j, x_values):
+    """
+    Computes the Fj polynomial which evaluates to a constant in the denominator of Lj.
+
+    :param j: the j index
+    :param x_values: the x values
+    :return: the Fj polynomial
+    """
     product = 1
     for r, x_r in enumerate(x_values):
         if r != j:

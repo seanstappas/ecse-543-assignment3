@@ -5,7 +5,11 @@ H = [0.0, 14.7, 36.5, 71.7, 121.4, 197.4, 256.2, 348.7, 540.6, 1062.8, 2317.0, 4
 A = 1e-4
 
 
-class SlopeInterpolation:
+class SlopeInterpolator:
+    """
+    Interpolator for the slope of the H-B curve.
+    """
+
     def __init__(self):
         self.slopes = []
         for i in range(len(B) - 1):

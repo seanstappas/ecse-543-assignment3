@@ -12,6 +12,11 @@ EPSILON = 1e-6
 
 
 def successive_substitution_solve():
+    """
+    Solves for the flux in the magnetic circuit of Q2 using successive substitution.
+
+    :return: the solved flux and the number of steps to solve
+    """
     h_interpolator = PiecewiseLinearInterpolator()
     b_interpolator = PiecewiseLinearInterpolatorInverse()
 
@@ -21,7 +26,7 @@ def successive_substitution_solve():
     iterations = 0
     while abs(f / f_0) >= EPSILON:
         print('Flux: {} Wb at iteration {}'.format(flux, iterations))
-        flux = update_flux4(flux, b_interpolator)
+        flux = update_flux(flux, b_interpolator)
         f = update_f(flux, h_interpolator)
         iterations += 1
     return flux, iterations
@@ -31,17 +36,5 @@ def update_f(flux, h_interpolator):
     return L_a / (A * mu_0) * flux + 0.3 * h_interpolator.evaluate_flux(flux) - 8000
 
 
-def update_flux(flux, h_interpolator):
-    return (8000 - 0.3 * h_interpolator.evaluate_flux(flux)) / (L_a / (A * mu_0))
-
-
-def update_flux2(flux, h_interpolator):
-    return 8000 / ((L_a / (A * mu_0)) + 0.3 * h_interpolator.evaluate_flux(flux) / flux)
-
-
-def update_flux3(flux, h_interpolator):
-    return 0.3 * h_interpolator.evaluate_flux(flux) / (8000 / flux - (L_a / (A * mu_0)))
-
-
-def update_flux4(flux, b_interpolator):
+def update_flux(flux, b_interpolator):
     return A * b_interpolator.evaluate_h((8000 - (L_a / (A * mu_0)) * flux) / 0.3)
