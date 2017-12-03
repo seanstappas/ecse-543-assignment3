@@ -1,24 +1,24 @@
 import math
 
-import matplotlib.pyplot as plt
-from matplotlib import rc
-
 from piecewise_linear import PiecewiseLinearInterpolator
 from successive_substitution import successive_substitution_solve
+from newton_raphson import newton_raphson_solve
+
+import matplotlib.pyplot as plt
+from matplotlib import rc
 
 rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
 rc('text', usetex=True)
 
-from newton_raphson import newton_raphson_solve
 
 B = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9]
 H = [0.0, 14.7, 36.5, 71.7, 121.4, 197.4, 256.2, 348.7, 540.6, 1062.8, 2317.0, 4781.9, 8687.4, 13924.3, 22650.2]
 L_a = 5e-3
-L_c = 0.3
 A = 1e-4
+mu_0 = 4e-7 * math.pi
+L_c = 0.3
 N = 1000
 I = 8
-mu_0 = 4e-7 * math.pi
 
 
 def q2():
@@ -32,6 +32,7 @@ def q2a():
     print('\n=== Question 2(a) ===')
     print('Flux equation: ')
     coeff_1 = L_a / (A * mu_0)
+    print(coeff_1)
     coeff_2 = L_c
     coeff_3 = N * I
     eq = 'f(\psi) = \SI{{{:1.3e}}}{{}} \psi + {}H(\psi) - {} = 0'.format(coeff_1, coeff_2, coeff_3)
@@ -43,17 +44,16 @@ def q2a():
 def q2b():
     print('\n=== Question 2(b) ===')
     flux, iterations = newton_raphson_solve()
-    print('Solved flux: {} Wb'.format(flux))
+    print('Solved flux: {:1.3e} Wb'.format(flux))
     print('Number of iterations: {}'.format(iterations))
-    # plot_interpolation(0.0, 1.9, PiecewiseLinearInterpolator(), B, H)
+    plot_interpolation(0.0, 1.9, PiecewiseLinearInterpolator(), B, H)
 
 
 def q2c():
     print('\n=== Question 2(c) ===')
     flux, iterations = successive_substitution_solve()
-    print('Solved flux: {} Wb'.format(flux))
+    print('Solved flux: {:1.3e} Wb'.format(flux))
     print('Number of iterations: {}'.format(iterations))
-    # plot_interpolation(0.0, 1.9, PiecewiseLinearInterpolator(), B, H)
 
 
 def plot_interpolation(x_min, x_max, interpolator, data_x_points, data_y_points, num_points=1000, filename='q2b'):

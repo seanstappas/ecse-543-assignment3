@@ -1,8 +1,13 @@
 from __future__ import division
 
+import math
+
 from piecewise_linear import PiecewiseLinearInterpolator
 from slope_interpolation import SlopeInterpolation
 
+L_a = 5e-3
+A = 1e-4
+mu_0 = 4e-7 * math.pi
 EPSILON = 1e-6
 
 
@@ -25,8 +30,8 @@ def newton_raphson_solve():
 
 
 def update_f(flux, h_interpolator):
-    return 3.979e7 * flux + 0.3 * h_interpolator.evaluate_flux(flux) - 8000
+    return L_a / (A * mu_0) * flux + 0.3 * h_interpolator.evaluate_flux(flux) - 8000
 
 
 def update_f_prime(flux, h_prime_interpolator):
-    return 3.979e7 + 3000 * h_prime_interpolator.evaluate_flux(flux)
+    return L_a / (A * mu_0) + 3000 * h_prime_interpolator.evaluate_flux(flux)
