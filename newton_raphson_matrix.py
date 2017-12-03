@@ -15,7 +15,12 @@ EPSILON = 1e-9
 
 
 def newton_raphson_matrix_solve():
-    values = []
+    error_values = []
+    norm_values = []
+    vA_values = []
+    vB_values = []
+    fA_values = []
+    fB_values = []
 
     iteration = 1
     v_n = Matrix.empty(2, 1)
@@ -24,14 +29,27 @@ def newton_raphson_matrix_solve():
     update_f(f, v_n)
     f_0 = copy.deepcopy(f)
     update_jacobian(F, v_n)
-    values.append(v_n.scaled_values(1000) + ('{:.3e}'.format(f.two_norm), ))
+
+    error_values.append('{:.3e}'.format(f.two_norm / f_0.two_norm))
+    norm_values.append('{:.3e}'.format(f.two_norm))
+    vA_values.append(v_n.scaled_values(1000)[0])
+    vB_values.append(v_n.scaled_values(1000)[1])
+    fA_values.append('{:.3e}'.format(f.values[0]))
+    fB_values.append('{:.3e}'.format(f.values[1]))
+
     while f.two_norm / f_0.two_norm >= EPSILON:
         v_n -= inverse_2x2(F) * f
         update_f(f, v_n)
         update_jacobian(F, v_n)
         iteration += 1
-        values.append(v_n.scaled_values(1000) + ('{:.3e}'.format(f.two_norm), ))
-    return v_n, values
+
+        error_values.append('{:.3e}'.format(f.two_norm / f_0.two_norm))
+        norm_values.append('{:.3e}'.format(f.two_norm))
+        vA_values.append(v_n.scaled_values(1000)[0])
+        vB_values.append(v_n.scaled_values(1000)[1])
+        fA_values.append('{:.3e}'.format(f.values[0]))
+        fB_values.append('{:.3e}'.format(f.values[1]))
+    return v_n, error_values, norm_values, vA_values, vB_values, fA_values, fB_values
 
 
 def update_f(f, v_n):
