@@ -106,7 +106,7 @@
 		\label{fig:q1b}
 	\end{figure}
 	
-	\subsection{Cubic Hermite Polynomials}
+	\subsection{Cubic Hermite Polynomials} \label{sec:cubic_hermite}
 	The slopes at each of the 6 points can be approximated by the slope of the straight line passing through the two adjacent points, i.e., the point immediately before and the point after the point of interest. For the boundary points of \SI{0}{\tesla} and \SI{1.9}{\tesla}, the slope of the line formed by the point and one adjacent point can be used.
 	
 	\section{Magnetic Circuit}
@@ -151,16 +151,34 @@
 	
 	\subsection{Newton-Raphson}
 	
+	To perform the Newton-Raphson update, the derivative $f'$ of $f$ will be needed. This can be seen in \cref{eq:flux_derivative}, where the $1/A$ term comes from the fact that $B(\psi) = \psi / A$ and $H(\psi) = H(B(\psi)) = H(\psi / A)$.
+	
+	\begin{equation} \label{eq:flux_derivative}
+		\begin{split}
+			f'(\psi) &= \SI{3.979e7}{} + \frac{0.3H'(\psi)}{A} \\
+			&= \SI{3.979e7}{} + 3000 H'
+		\end{split}
+	\end{equation}
+	
+	In \cref{eq:flux_derivative}, the derivative $H'$ of $H$ can be estimated using the slope between each of the points given in the $B$-$H$ table of Question 1.	The slope interpolation code is in the \code{slope\_interpolation.py} script shown in \cref{lst:slope_interpolation}.
+	
+	A piecewise-linear interpolation of the data in the $B$-$H$ table is needed. This can easily be obtained using the Lagrange polynomial program created for Question 1. Here, we simply need to interpolate 2 points in every sub-domain using \nth{1}-order Lagrange polynomials. We will also need to interpolate $H$ as a function of $B$ to evaluate \cref{eq:flux_plug}, unlike in Question 1. The linear interpolation code is in the \code{piecewise\_linear.py} script shown in \cref{lst:piecewise_linear}. The generated piecewise-linear interpolation fits the $B$-$H$ points, as can be seen in \cref{fig:q2b}.
+	
+	\begin{figure}[!htb]
+		\centering
+		\includegraphics[width=\columnwidth]{plots/q2b.pdf}
+		\caption
+		{Piecewise-linear interpolation of the $H$-$B$ curve.}
+		\label{fig:q2b}
+	\end{figure}
+	
+	With $f$ given by \cref{eq:flux_plug} and $f'$ given by \cref{eq:flux_derivative}, the Newton-Raphson update equation for the flux $\psi$ is given by \cref{eq:newton_raphson}.
+	
 	\begin{equation} \label{eq:newton_raphson}
 		\psi^{(k+1)} \leftarrow \psi^{(k)} - \frac{f^{(k)}}{{f'}^{(k)}}
 	\end{equation}
 	
-	The $f'$ function is given by \cref{eq:flux_derivative}.
-	
-	\begin{equation} \label{eq:flux_derivative}
-		f'(\psi) = \SI{3.979e7}{} + 0.3H'(\psi)
-	\end{equation}
-	
+	The code performing the Newton-Raphson update is in \code{newton\_raphson.py} and can be seen in \cref{lst:newton_raphson}. The executing program is in \code{q2.py} shown in \cref{lst:q2}, with associated output in \cref{lst:q2_log}. The program takes 3 steps to solve for a flux of approximately $\psi = \SI{161.2681}{\micro\weber}$.
 	
 	\subsection{Successive Substitution}
 	
@@ -263,7 +281,7 @@
 	
 	\todo{Define fraction error, like Q2}
 	
-	The code performing this update is in the \code{newton\_raphson.py} script and can be seen in \cref{lst:newton_raphson_matrix}. The initial guess is $v_A=\SI{0}{\volt}$ and $v_B=\SI{0}{\volt}$. The error $\epsilon$ in \textbf{f} is defined as \SI{1e-9}{}, where the 2-norm of \textbf{f} is used to compare to the error. The code is executed in the \code{q3.py} script shown in \cref{lst:q3}, with output shown in \cref{lst:q3_log}. The final solved voltage values are \SI{198.134}{\milli\volt} for $v_A$ and \SI{90.571}{\milli\volt} for $v_B$.
+	The code performing this update is in the \code{newton\_raphson\_matrix.py} script and can be seen in \cref{lst:newton_raphson_matrix}. The initial guess is $v_A=\SI{0}{\volt}$ and $v_B=\SI{0}{\volt}$. The error $\epsilon$ in \textbf{f} is defined as \SI{1e-9}{}, where the 2-norm of \textbf{f} is used to compare to the error. The code is executed in the \code{q3.py} script shown in \cref{lst:q3}, with output shown in \cref{lst:q3_log}. The final solved voltage values are \SI{198.134}{\milli\volt} for $v_A$ and \SI{90.571}{\milli\volt} for $v_B$.
 	
 	
 	\begin{table}[!htb]
@@ -465,6 +483,37 @@
 			\captionof{listing}{Question 2 (\texttt{q2.py}).}
 			\inputminted{python}{../q2.py}
 			\label{lst:q2}
+		\end{center}
+	
+		\begin{center}
+			\captionof{listing}{Newton-Raphson (\texttt{newton\_raphson.py}).}
+			\inputminted{python}{../newton_raphson.py}
+			\label{lst:newton_raphson}
+		\end{center}
+	
+		\begin{center}
+			\captionof{listing}{Piecewise-linear interpolation (\texttt{piecewise\_linear.py}).}
+			\inputminted{python}{../piecewise_linear.py}
+			\label{lst:piecewise_linear}
+		\end{center}
+	
+		\begin{center}
+			\captionof{listing}{Slope interpolation (\texttt{slope\_interpolation.py}).}
+			\inputminted{python}{../slope_interpolation.py}
+			\label{lst:slope_interpolation}
+		\end{center}
+	
+	
+		\begin{center}
+			\captionof{listing}{Piecewise-linear interpolation tests (\texttt{test\_piecewise\_linear.py}).}
+			\inputminted{python}{../test_piecewise_linear.py}
+			\label{lst:test_piecewise_linear}
+		\end{center}
+		
+		\begin{center}
+			\captionof{listing}{Slope interpolation tests (\texttt{test\_slope\_interpolation.py}).}
+			\inputminted{python}{../test_slope_interpolation.py}
+			\label{lst:test_slope_interpolation}
 		\end{center}
 		
 		\begin{center}

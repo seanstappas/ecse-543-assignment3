@@ -1,0 +1,12 @@
+=== Question 2 ===
+
+=== Question 2(a) ===
+Flux equation:
+f(\psi) = \SI{3.979e+07}{} \psi + 0.3H(\psi) - 8000 = 0
+
+=== Question 2(b) ===
+Flux: 0 Wb at iteration 0
+Flux: 0.000199947513778 Wb at iteration 1
+Flux: 0.00016892620877 Wb at iteration 2
+Solved flux: 0.000161268070466 Wb
+Number of iterations: 3

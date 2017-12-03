@@ -1,32 +1,24 @@
 from __future__ import division
 
 from piecewise_linear import PiecewiseLinearInterpolator
-from slope_interpolation import SlopeInterpolation
 
 EPSILON = 1e-6
 
 
-def newton_raphson_solve():
+def successive_substitution_solve():
     h_interpolator = PiecewiseLinearInterpolator()
-    h_prime_interpolator = SlopeInterpolation()
 
-    flux = 0
+    flux = 1e-8
     f_0 = update_f(flux, h_interpolator)
-    f_prime = update_f_prime(flux, h_prime_interpolator)
     f = f_0
     iterations = 0
     while abs(f / f_0) >= EPSILON:
         print('Flux: {} Wb at iteration {}'.format(flux, iterations))
-        flux -= f / f_prime
+        flux -= f
         f = update_f(flux, h_interpolator)
-        f_prime = update_f_prime(flux, h_prime_interpolator)
         iterations += 1
     return flux, iterations
 
 
 def update_f(flux, h_interpolator):
     return 3.979e7 * flux + 0.3 * h_interpolator.evaluate_flux(flux) - 8000
-
-
-def update_f_prime(flux, h_prime_interpolator):
-    return 3.979e7 + 3000 * h_prime_interpolator.evaluate_flux(flux)

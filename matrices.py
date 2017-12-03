@@ -144,7 +144,7 @@ class Matrix:
 
     def is_positive_definite(self):
         """
-        :return: True if the matrix if positive-definite, False otherwise.
+        :return: True if the matrix is positive-definite, False otherwise.
         """
         A = copy.deepcopy(self.data)
         for j in range(self.num_rows):
